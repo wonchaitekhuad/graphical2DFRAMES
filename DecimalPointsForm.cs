@@ -12,6 +12,12 @@ namespace Graphical_2D_Frame_Analysis_CSharp
     /// </summary>
     public partial class DecimalPointsForm : Form
     {
+        // Constants for canvas rendering
+        private const int CANVAS_MARGIN = 20;
+        private const float POINT_SIZE = 6f;
+        private const float MIN_RANGE_THRESHOLD = 0.0001f;
+        private const float PADDING_PERCENT = 0.1f;
+
         private List<PointF> coordinates;
         private TextBox txtX;
         private TextBox txtY;
@@ -262,16 +268,15 @@ namespace Graphical_2D_Frame_Analysis_CSharp
             }
 
             // Add padding to the bounds
-            float paddingPercent = 0.1f;
             float rangeX = maxX - minX;
             float rangeY = maxY - minY;
             
             // Handle single point or points on a line
-            if (rangeX < 0.0001f) rangeX = 1.0f;
-            if (rangeY < 0.0001f) rangeY = 1.0f;
+            if (rangeX < MIN_RANGE_THRESHOLD) rangeX = 1.0f;
+            if (rangeY < MIN_RANGE_THRESHOLD) rangeY = 1.0f;
 
-            float paddingX = rangeX * paddingPercent;
-            float paddingY = rangeY * paddingPercent;
+            float paddingX = rangeX * PADDING_PERCENT;
+            float paddingY = rangeY * PADDING_PERCENT;
 
             minX -= paddingX;
             maxX += paddingX;
@@ -282,8 +287,8 @@ namespace Graphical_2D_Frame_Analysis_CSharp
             rangeY = maxY - minY;
 
             // Calculate scaling factors
-            float scaleX = (picCanvas.Width - 40) / rangeX;
-            float scaleY = (picCanvas.Height - 40) / rangeY;
+            float scaleX = (picCanvas.Width - 2 * CANVAS_MARGIN) / rangeX;
+            float scaleY = (picCanvas.Height - 2 * CANVAS_MARGIN) / rangeY;
             float scale = Math.Min(scaleX, scaleY);
 
             // Draw coordinate axes
@@ -292,11 +297,11 @@ namespace Graphical_2D_Frame_Analysis_CSharp
                 // Draw grid lines
                 for (int i = 0; i <= 10; i++)
                 {
-                    float x = 20 + i * (picCanvas.Width - 40) / 10f;
-                    g.DrawLine(axisPen, x, 20, x, picCanvas.Height - 20);
+                    float x = CANVAS_MARGIN + i * (picCanvas.Width - 2 * CANVAS_MARGIN) / 10f;
+                    g.DrawLine(axisPen, x, CANVAS_MARGIN, x, picCanvas.Height - CANVAS_MARGIN);
 
-                    float y = 20 + i * (picCanvas.Height - 40) / 10f;
-                    g.DrawLine(axisPen, 20, y, picCanvas.Width - 20, y);
+                    float y = CANVAS_MARGIN + i * (picCanvas.Height - 2 * CANVAS_MARGIN) / 10f;
+                    g.DrawLine(axisPen, CANVAS_MARGIN, y, picCanvas.Width - CANVAS_MARGIN, y);
                 }
             }
 
@@ -310,23 +315,22 @@ namespace Graphical_2D_Frame_Analysis_CSharp
                     PointF worldPoint = coordinates[i];
                     
                     // Transform world coordinates to canvas coordinates
-                    float canvasX = 20 + (worldPoint.X - minX) * scale;
+                    float canvasX = CANVAS_MARGIN + (worldPoint.X - minX) * scale;
                     float canvasY;
                     
                     if (chkInvertY.Checked)
                     {
-                        // Normal orientation (Y increases downward on screen)
-                        canvasY = 20 + (worldPoint.Y - minY) * scale;
+                        // Inverted Y: Y increases downward (standard screen coordinates)
+                        canvasY = CANVAS_MARGIN + (worldPoint.Y - minY) * scale;
                     }
                     else
                     {
-                        // Inverted Y (Y increases upward on screen, like Cartesian coordinates)
-                        canvasY = picCanvas.Height - 20 - (worldPoint.Y - minY) * scale;
+                        // Normal Y: Y increases upward (Cartesian coordinates)
+                        canvasY = picCanvas.Height - CANVAS_MARGIN - (worldPoint.Y - minY) * scale;
                     }
 
                     // Draw point as filled circle
-                    float pointSize = 6;
-                    g.FillEllipse(pointBrush, canvasX - pointSize / 2, canvasY - pointSize / 2, pointSize, pointSize);
+                    g.FillEllipse(pointBrush, canvasX - POINT_SIZE / 2, canvasY - POINT_SIZE / 2, POINT_SIZE, POINT_SIZE);
 
                     // Draw label
                     string label = string.Format(CultureInfo.CurrentCulture, "P{0}\n({1:F4},{2:F4})", 
@@ -338,7 +342,8 @@ namespace Graphical_2D_Frame_Analysis_CSharp
             // Draw border around canvas
             using (Pen borderPen = new Pen(Color.Black, 2))
             {
-                g.DrawRectangle(borderPen, 20, 20, picCanvas.Width - 40, picCanvas.Height - 40);
+                g.DrawRectangle(borderPen, CANVAS_MARGIN, CANVAS_MARGIN, 
+                    picCanvas.Width - 2 * CANVAS_MARGIN, picCanvas.Height - 2 * CANVAS_MARGIN);
             }
         }
     }
