@@ -16,19 +16,27 @@ namespace Graphical_2D_Frame_Analysis_CSharp
             // Initialize the BindingList for points
             points = new BindingList<PointData>();
             
+            // Configure DataGridView columns explicitly
+            dgv.AutoGenerateColumns = false;
+            
+            // Add X column
+            DataGridViewTextBoxColumn colX = new DataGridViewTextBoxColumn();
+            colX.Name = "X";
+            colX.HeaderText = "X";
+            colX.DataPropertyName = "X";
+            colX.Width = 150;
+            dgv.Columns.Add(colX);
+            
+            // Add Y column
+            DataGridViewTextBoxColumn colY = new DataGridViewTextBoxColumn();
+            colY.Name = "Y";
+            colY.HeaderText = "Y";
+            colY.DataPropertyName = "Y";
+            colY.Width = 150;
+            dgv.Columns.Add(colY);
+            
             // Bind the BindingList to the DataGridView
             dgv.DataSource = points;
-            
-            // Configure DataGridView columns
-            if (dgv.Columns.Count >= 2)
-            {
-                dgv.Columns[0].Name = "X";
-                dgv.Columns[0].HeaderText = "X";
-                dgv.Columns[0].Width = 150;
-                dgv.Columns[1].Name = "Y";
-                dgv.Columns[1].HeaderText = "Y";
-                dgv.Columns[1].Width = 150;
-            }
         }
 
         /// <summary>
