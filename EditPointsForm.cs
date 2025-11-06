@@ -46,8 +46,11 @@ namespace Graphical_2D_Frame_Analysis_CSharp
         {
             if (existingPoints != null)
             {
-                points = existingPoints;
-                dgv.DataSource = points;
+                // Copy existing points to avoid modifying the original list
+                foreach (var point in existingPoints)
+                {
+                    points.Add(new PointData { X = point.X, Y = point.Y });
+                }
             }
         }
 
