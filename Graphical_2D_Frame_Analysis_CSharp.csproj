@@ -88,6 +88,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="DecimalPointsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms2\FABOUT.cs">
       <SubType>Form</SubType>
     </Compile>
