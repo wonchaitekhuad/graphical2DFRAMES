@@ -20,10 +20,12 @@ namespace Graphical_2D_Frame_Analysis_CSharp
             dgv.DataSource = points;
             
             // Configure DataGridView columns
-            if (dgv.Columns.Count > 0)
+            if (dgv.Columns.Count >= 2)
             {
+                dgv.Columns[0].Name = "X";
                 dgv.Columns[0].HeaderText = "X";
                 dgv.Columns[0].Width = 150;
+                dgv.Columns[1].Name = "Y";
                 dgv.Columns[1].HeaderText = "Y";
                 dgv.Columns[1].Width = 150;
             }
