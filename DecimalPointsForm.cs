@@ -310,11 +310,16 @@ namespace Graphical_2D_Frame_Analysis_CSharp
                 return;
             }
 
-            // Calculate bounds for auto-scaling
-            float minX = points.Min(p => p.X);
-            float maxX = points.Max(p => p.X);
-            float minY = points.Min(p => p.Y);
-            float maxY = points.Max(p => p.Y);
+            // Calculate bounds for auto-scaling - single enumeration for performance
+            float minX = float.MaxValue, maxX = float.MinValue;
+            float minY = float.MaxValue, maxY = float.MinValue;
+            foreach (var p in points)
+            {
+                if (p.X < minX) minX = p.X;
+                if (p.X > maxX) maxX = p.X;
+                if (p.Y < minY) minY = p.Y;
+                if (p.Y > maxY) maxY = p.Y;
+            }
 
             // Add margin (10% on each side)
             float rangeX = maxX - minX;
@@ -335,9 +340,9 @@ namespace Graphical_2D_Frame_Analysis_CSharp
             float worldWidth = maxX - minX;
             float worldHeight = maxY - minY;
 
-            // Canvas dimensions
-            int canvasWidth = picCanvas.Width - 20; // Leave 10px margin on each side
-            int canvasHeight = picCanvas.Height - 20;
+            // Canvas dimensions - ensure minimum size to prevent division issues
+            int canvasWidth = Math.Max(picCanvas.Width - 20, 50); // Minimum 50px
+            int canvasHeight = Math.Max(picCanvas.Height - 20, 50); // Minimum 50px
 
             // Calculate scaling factors
             float scaleX = canvasWidth / worldWidth;
@@ -397,6 +402,7 @@ namespace Graphical_2D_Frame_Analysis_CSharp
                         radius * 2, radius * 2);
 
                     // Draw label with F4 formatting
+                    // Note: For very large datasets (>1000 points), consider caching formatted labels
                     string label = $"({worldPoint.X.ToString("F4", CultureInfo.CurrentCulture)}, " +
                                    $"{worldPoint.Y.ToString("F4", CultureInfo.CurrentCulture)})";
                     g.DrawString(label, font, textBrush, canvasPoint.X + 8, canvasPoint.Y - 8);
