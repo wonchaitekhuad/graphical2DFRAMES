@@ -88,6 +88,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="EditPointsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditPointsForm.Designer.cs">
+      <DependentUpon>EditPointsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PointXY.cs" />
     <Compile Include="Forms2\FABOUT.cs">
       <SubType>Form</SubType>
     </Compile>
