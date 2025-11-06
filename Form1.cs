@@ -7193,7 +7193,7 @@ Local d=T*Global d                  |Global d= TT*d local
                         int x = e.X;
                         int y = e.Y;
                         SnapToGrid(ref x, ref y);
-                        Location_1 = new Point(x, y);
+                        Location_1 = new PointF(x, y);
 
 
                         Temp1 = new line();
@@ -7205,7 +7205,7 @@ Local d=T*Global d                  |Global d= TT*d local
                         int x = e.X;
                         int y = e.Y;
                         SnapToGrid(ref x, ref y);
-                        Location_2 = new Point(x, y);
+                        Location_2 = new PointF(x, y);
 
 
 
@@ -21981,8 +21981,8 @@ M3,0.0225,4.21875E-05,200000000";
 
         public override string ToString()
         {
-            return "StartPoint.X,StartPoint.Y,EndPoint.X,EndPoint.Y= " + StartPoint.X + " , " + StartPoint.Y + " , " +
-                EndPoint.X + " , " + EndPoint.Y;
+            return "StartPoint.X,StartPoint.Y,EndPoint.X,EndPoint.Y= " + StartPoint.X.ToString("F2") + " , " + StartPoint.Y.ToString("F2") + " , " +
+                EndPoint.X.ToString("F2") + " , " + EndPoint.Y.ToString("F2");
         }
 
     }
