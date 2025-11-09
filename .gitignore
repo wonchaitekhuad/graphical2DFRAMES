@@ -1,0 +1,19 @@
+# Build artifacts
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.dll
+*.exe
+*.pdb
+
+# Visual Studio
+.vs/
+*.csproj.user
+*.vbproj.user
+
+# Temporary files
+*.tmp
+*.bak
+*~
