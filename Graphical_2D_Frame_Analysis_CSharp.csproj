@@ -142,6 +142,12 @@
     <Compile Include="Forms2\FNodal.Designer.cs">
       <DependentUpon>FNodal.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditPointsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditPointsForm.Designer.cs">
+      <DependentUpon>EditPointsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
